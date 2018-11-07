@@ -3,4 +3,4 @@ parameters:
     dbname: chat_test
     dbuser: root
     dbpassword: root
-    baseurl: /ChatTest/Public/
+    baseurl: /ChatTest/Public
