@@ -87,21 +87,22 @@ abstract class BaseRepository
      */
     public function update(Entity $entity)
     {
-        $statement = "UPDATE {$this->table} SET (";
-        $statementValues = [];
-        $statementNames = [];
+        $statement = "UPDATE {$this->table} SET ";
+        $i=0;
         $values = [];
-
         foreach ($entity->toArray() as $fieldName => $fieldValue) {
-            $statementNames[] = $fieldName;
-            $statementValues[] = "?";
+            if($i != 0)
+                $statement .= " , ";
+            $statement .=$fieldName." =? ";
             $values[] = $fieldValue;
+            $i++;
         }
 
-        $statement .= implode(',', $statementNames).') VALUES('.implode(',', $statementValues).')';
-
         $statement .= " where id = ?";
+        echo $statement."<br><br>";
+
         $values[] = $entity->getId();
+        //var_dump($values);exit;
         $query = self::getDBInstance()->prepare($statement);
         $query->execute($values);
     }

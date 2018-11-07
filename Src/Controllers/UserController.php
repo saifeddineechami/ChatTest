@@ -40,11 +40,11 @@ class UserController extends BaseController
                 if (password_verify($user->getPassword(),$entity->getPassword())) {
 
                     $_SESSION['loggedIn'] = $entity->getId();
-                    $entity->setIsLogged(true);
+                    $entity->setIsLogged(1);
                     $this->em->getRepository("user")->update($entity);
                 }
                 else
-                    $this->errors["login"][] = 'Merci de vérifier vos identifiantsggg';
+                    $this->errors["login"][] = 'Merci de vérifier vos identifiants';
             }
             else
                 $this->errors["login"][] = 'Merci de vérifier vos identifiants';
@@ -60,7 +60,7 @@ class UserController extends BaseController
     function logoutAction()
     {
         $user = $this->em->getRepository("user")->findOne(['id' => $_SESSION["loggedIn"]]);
-        $user->setIsLogged(false);
+        $user->setIsLogged(0);
         $this->em->getRepository("user")->update($user);
 
         unset($_SESSION['loggedIn']);
