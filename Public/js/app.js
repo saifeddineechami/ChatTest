@@ -24,13 +24,20 @@ var chatModule = (function () {
             {
                 type : "GET",
                 dataType : "json",
-                url : "/",
+                url : window.location.pathname,
                 success : function(data) {
+                    $("#usres").empty();
+                    console.log(data.usres)
+                    $.each( data.usres, function( key,item ) {
+                        $("#usres").append( item.username +'<br/>');
+                    });
                     $("#messages").empty();
-
                     $.each( data.messages, function( key,item ) {
                         $("#messages").append( item.senderId + ' - ' + item.createdAt + ' - ' +  item.message+'<br/>');
                     });
+                },
+                error :function (data) {
+                    console.log(data);
                 }
             });
     };
@@ -39,9 +46,10 @@ var chatModule = (function () {
             {
                 type : "POST",
                 dataType : "json",
-                url : "/",
+                url : window.location.pathname,
                 data : datastring,
                 success : function(data) {
+                    console.log("eee");
                     if(data.success){
                         updateChat(data);
                     }else{

@@ -31,7 +31,7 @@ class Dispatcher
      */
     protected function __construct()
     {
-        $uri = str_replace(__baseurl__,"",$_SERVER['REQUEST_URI']);
+        $uri = str_replace(__baseurl__."/","",$_SERVER['REQUEST_URI']);
         $array = explode('/', $uri);
         if(count($array) >=2)
         list($this->controller, $this->action) = $array;

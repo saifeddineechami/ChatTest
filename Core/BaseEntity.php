@@ -17,7 +17,7 @@ abstract class BaseEntity
      * Entity constructor.
      * @var array $data
      */
-    public function __construct(array $data)
+    public function __construct(array $data = array())
     {
         $this->hydrate($data);
     }

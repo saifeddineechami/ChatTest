@@ -9,6 +9,7 @@
 namespace Chat\Controllers;
 
 use Core\BaseController;
+use Chat\Models\Entities\Message;
 
 class DefaultController extends BaseController
 {
@@ -17,38 +18,39 @@ class DefaultController extends BaseController
      */
     public function __construct()
     {
+        parent::__construct();
         //if the user is not logged in and requested a protected resource redirect to login//
         if (!isset($_SESSION['loggedIn'])) {
-            $this->redirectUrl('user/login');
+            $this->redirectUrl('/user/login');
         }
 
     }
 
     public function indexAction()
     {
-        $params = [];
-        $params['connectedUsers'] = UserHandler::getConnectedUsers();
         if ($this->isAjaxRequest())
         {
-            $messageHandler = new MessageHandler();
 
             if ('POST' === $_SERVER['REQUEST_METHOD']) {
                 $message = isset($_POST['message']) ? $_POST['message'] : '';
                 $message = new Message(['message' => $message, 'senderId' => $_SESSION['loggedIn']]);
 
-                $added = $messageHandler->add($message);
-
-                if ($added) {
+                if (empty($message->getMessage())) {
+                    $this->errors["chat"][] = 'Votre message est vide !';
+                    $response = ['success' => false, 'errors' => $this->errors["chat"]];
+                }
+                else
+                {
+                    $this->em->getRepository("message")->add($message);
                     $response = ['success' => true];
-                } else {
-                    $response = ['success' => false, 'errors' => $messageHandler->getAddMessageErrors()];
                 }
 
             } else {
 
-                $messages = $messageHandler->getMessages();
+                $messages = $this->em->getRepository("message")->findAll([],['createdAt'=>'desc'],'array');
+                $usres = $this->em->getRepository("user")->findAll(["isLogged" => 1],[],'array');
                 if (!empty($messages)) {
-                    $response = ['success' => true, 'messages' => $messages];
+                    $response = ['success' => true, 'messages' => $messages,'usres' => $usres];
                 } else {
                     $response = ['success' => false];
                 }
@@ -57,7 +59,9 @@ class DefaultController extends BaseController
             $this->renderJson($response);
 
         } else {
-            $this->renderView('chat.view.php', $params);
+
+            $this->em->getRepository("user")->findAll(array('isLogged'=>true));
+            $this->renderView('chat.view.php');
         }
 
 

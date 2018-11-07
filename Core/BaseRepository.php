@@ -6,12 +6,12 @@
  * Time: 00:10
  */
 
-namespace Chat\Repositories;
+namespace Core;
 
 use Core\BaseEntity as Entity;
 use \PDO;
 use \PDOException;
-
+use \DateTime;
 abstract class BaseRepository
 {
     /** @var null PDO $connection */
@@ -43,6 +43,7 @@ abstract class BaseRepository
      */
     public function add(Entity $entity)
     {
+        $entity->setCreatedAt((new DateTime())->format('Y-m-d H:i'));
         $statement = "INSERT INTO {$this->table}(";
         $statementValues = [];
         $statementNames = [];
@@ -87,18 +88,20 @@ abstract class BaseRepository
     public function update(Entity $entity)
     {
         $statement = "UPDATE {$this->table} SET (";
+        $statementValues = [];
+        $statementNames = [];
         $values = [];
 
-        if (!empty($entity->toArray())) {
-            $statementPieces = [];
-            foreach ($entity->toArray() as $fieldName => $fieldValue) {
-                $statementPieces = "$fieldName = ? ";
-                $values[] = $fieldValue;
-            }
-            $statement .= implode(',', $statementPieces);
+        foreach ($entity->toArray() as $fieldName => $fieldValue) {
+            $statementNames[] = $fieldName;
+            $statementValues[] = "?";
+            $values[] = $fieldValue;
         }
 
-        $statement .= " WHERE id = ?";
+        $statement .= implode(',', $statementNames).') VALUES('.implode(',', $statementValues).')';
+
+        $statement .= " where id = ?";
+        $values[] = $entity->getId();
         $query = self::getDBInstance()->prepare($statement);
         $query->execute($values);
     }
@@ -113,7 +116,7 @@ abstract class BaseRepository
         $query = $this->findBy($fields,$sort);
         $result = $query->fetch();
         if($result){
-            $entity="Chat\Entities\\".ucfirst($this->class);
+            $entity="Chat\Models\Entities\\".ucfirst($this->entity);
             /**@var Entity $entity */
             $entity = new $entity($result);
 
@@ -139,7 +142,7 @@ abstract class BaseRepository
         if('object'===$type){
             // hydrate the result to an array //
             foreach ($result as $element) {
-                $entity="Chat\Entities\\".ucfirst($this->class);
+                $entity="Chat\Models\Entities\\".ucfirst($this->entity);
                 $arrayResult[] = new $entity($element);
             }
             $result=$arrayResult;

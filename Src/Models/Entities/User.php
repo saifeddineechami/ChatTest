@@ -1,9 +1,14 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: saif
+ * Date: 07/11/18
+ * Time: 08:21
+ */
 
-namespace Chat\Entities;
+namespace Chat\Models\Entities;
 
 use Core\BaseEntity;
-use \DateTime;
 
 class User extends BaseEntity
 {
@@ -14,6 +19,8 @@ class User extends BaseEntity
     protected $email;
     protected $password;
     protected $confirmPassword;
+    protected $isLogged;
+    protected $createdAt;
 
     /**
      * @return mixed
@@ -127,6 +134,44 @@ class User extends BaseEntity
     public function setConfirmPassword($confirmPassword)
     {
         $this->confirmPassword = $confirmPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsLogged()
+    {
+        return $this->isLogged;
+    }
+
+    /**
+     * @param boolean $isLogged
+     * @return  $this
+     */
+    public function setIsLogged($isLogged)
+    {
+        $this->isLogged = $isLogged;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     * @return  $this
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

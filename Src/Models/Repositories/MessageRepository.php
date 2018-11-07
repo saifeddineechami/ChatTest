@@ -1,7 +1,13 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: saif
+ * Date: 07/11/18
+ * Time: 10:04
+ */
 
-namespace Chat\Repositories;
-
+namespace Chat\Models\Repositories;
+use Core\BaseRepository;
 class MessageRepository extends BaseRepository
 {
     public $table = "message";

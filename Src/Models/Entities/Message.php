@@ -1,25 +1,24 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: saif
+ * Date: 07/11/18
+ * Time: 08:40
+ */
 
-namespace Chat\Entities;
+namespace Chat\Models\Entities;
 
 use Core\BaseEntity;
-use \DateTime;
+
 
 class Message extends BaseEntity
 {
 
     protected $senderId;
-    protected $createdAt;
+    protected $receiverId;
     protected $message;
+    protected $createdAt;
 
-    /**
-     * Message constructor.
-     */
-    public function __construct(array $data)
-    {
-        parent::__construct($data);
-        $this->setCreatedAt((new DateTime())->format('d-m-Y H:i'));
-    }
 
     /**
      * @return int
@@ -36,6 +35,25 @@ class Message extends BaseEntity
     public function setSenderId($senderId)
     {
         $this->senderId = $senderId;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getReceiverId()
+    {
+        return $this->receiverId;
+    }
+
+    /**
+     * @param int $receiverId
+     * @return  $this
+     */
+    public function setReceiverId($receiverId)
+    {
+        $this->receiverId = $receiverId;
 
         return $this;
     }

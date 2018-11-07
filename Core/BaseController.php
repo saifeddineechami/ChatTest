@@ -16,6 +16,16 @@ abstract class BaseController
      */
     protected $errors = [];
 
+    /**
+     * @var EntityManager $em .
+     */
+    protected $em;
+
+    public function __construct()
+    {
+        $this->em = new EntityManager();
+    }
+
 
     /**
      * run Controller

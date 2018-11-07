@@ -11,32 +11,15 @@ namespace Core;
 
 class EntityManager
 {
-    /**
-     * @var BaseRepository $entityRepository .
-     */
-    protected $entityRepository;
-    /**
-     * @var array $errors .
-     */
-    protected $errors = [];
 
-
-    /**
-     * UserHandler constructor.
-     */
-    public function __construct()
-    {
-        $this->entityRepository = self::getRepository('message');
-        $this->errors = ['add_message' => []];
-    }
 
     /**
      * @var string $repositoryName
      * @return BaseRepository|| null
      */
-    public static function getRepository($repositoryName)
+    public  static function getRepository($repositoryName)
     {
-        $repositoryClass="Chat\Repositories\\".ucfirst($repositoryName.'Repository');
+        $repositoryClass="Chat\Models\Repositories\\".ucfirst($repositoryName.'Repository');
 
         if(class_exists($repositoryClass)){
             return new $repositoryClass($repositoryName);
