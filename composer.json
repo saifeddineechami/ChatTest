@@ -1,0 +1,42 @@
+{
+    "name": "saifeddineechami/chat-test",
+    "description": "MVC chat application",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Saifeddine Echami",
+            "email": "saifeddine.echami@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.6",
+        "symfony/yaml": "^2.3 || ^3.0 || ^4.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.0@dev",
+        "symfony/filesystem": "^2.3 || ^3 || ^4",
+        "symfony/phpunit-bridge": "^4.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Scripts\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Scripts\\ScriptHandler::buildParameters"
+        ]
+    },
+    "extra": {
+        "parameters": {
+            "file": "App/Config/parameters.yml",
+            "dist-file": "App/Config/parameters.yml.dist"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+          "Scripts\\": "Scripts/",
+          "Core\\": "Core/",
+          "Chat\\": "Src/"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+/vendor/
+/Var/*
+/.idea/
+/composer.lock
+/App/Config/parameters.yml
+
+

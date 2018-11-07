@@ -1,0 +1,6 @@
+parameters:
+    host: localhost
+    dbname: chat_test
+    dbuser: root
+    dbpassword: root
+    baseurl: /ChatTest/Public/
