@@ -1,5 +1,5 @@
 /vendor/
-/Var/*
+/Var/log_error_php.txt
 /.idea/
 /composer.lock
 /App/Config/parameters.yml
