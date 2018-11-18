@@ -22,15 +22,18 @@ class UserController extends BaseController
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
             $username = isset($_POST['username']) ? $_POST['username'] : '';
             $password = isset($_POST['password']) ? $_POST['password'] : '';
-
-            $user = new User(['username'=>$username,'password'=>$password]);
-            $entity = $this->em->getRepository("user")->findOne(['username' => $user->getUsername()]);
+            $data = ['username'=>$username,'password'=>$password];
+            $params["data"] = $data;
+            $user = new User($data);
+            $entity = $this->em->getRepository("user")
+                ->findOne(['username' => $user->getUsername()]);
 
             if ($entity) {
                 if (password_verify($user->getPassword(), $entity->getPassword())) {
                     $_SESSION['loggedIn'] = $entity->getId();
                     $entity->setIsLogged(1);
-                    $this->em->getRepository("user")->update($entity);
+                    $this->em->getRepository("user")
+                        ->update($entity);
                 } else {
                     $this->errors["login"][] = 'Merci de vérifier vos identifiants';
                 }
@@ -48,9 +51,13 @@ class UserController extends BaseController
 
     public function logoutAction()
     {
-        $user = $this->em->getRepository("user")->findOne(['id' => $_SESSION["loggedIn"]]);
+        $user = $this->em->getRepository("user")
+            ->findOne(['id' => $_SESSION["loggedIn"]]);
+
         $user->setIsLogged(0);
-        $this->em->getRepository("user")->update($user);
+
+        $this->em->getRepository("user")
+            ->update($user);
 
         unset($_SESSION['loggedIn']);
         $this->redirectUrl('/user/login');
@@ -61,24 +68,27 @@ class UserController extends BaseController
         $this->isUserLogged();
         $params = [];
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
-            $firstname = isset($_POST['firstname']) ? $_POST['firstname'] : '';
-            $lastname = isset($_POST['lastname']) ? $_POST['lastname'] : '';
-            $username = isset($_POST['username']) ? $_POST['username'] : '';
+            $firstName = isset($_POST['firstName']) ? $_POST['firstName'] : '';
+            $lastName = isset($_POST['lastName']) ? $_POST['lastName'] : '';
+            $userName = isset($_POST['userName']) ? $_POST['userName'] : '';
             $email = isset($_POST['email']) ? $_POST['email'] : '';
             $password = isset($_POST['password']) ? $_POST['password'] : '';
             $confirmPassword = isset($_POST['confirmPassword']) ? $_POST['confirmPassword'] : '';
-            $user = new User(
-                [   'firstname'=>$firstname,
-                    'lastname'=>$lastname,
-                    'username'=>$username,
-                    'email'=>$email,'password'=>$password,
-                    'confirmPassword'=>$confirmPassword,
-                    'isLogged'=>0
-                ]
-            );
+
+            $data = [   'firstName' => $firstName,
+                'lastName' => $lastName,
+                'userName' => $userName,
+                'email' => $email,
+                'password' => $password,
+                'confirmPassword' => $confirmPassword,
+                'isLogged' => 0
+            ];
+
+            $params["data"] = $data;
+            $user = new User($data);
             if (!$user->getFirstName()
                 || !$user->getLastName()
-                || !$user->getUsername()
+                || !$user->getUserName()
                 || !$user->getEmail()
                 || !$user->getPassword()
                 || !$user->getConfirmPassword()
@@ -90,11 +100,8 @@ class UserController extends BaseController
                 $this->errors["register"][] = 'les deux mots de passe doivent etre indentiques!';
             }
 
-            /**
-* @var User $entity
-*/
-            $entity = $this->em->getRepository("user")->findOne(['username' => $user->getUsername()]);
-
+            $entity = $this->em->getRepository("user")
+                ->findOne(['userName' => $user->getUserName()]);
 
             if ($entity) {
                 $this->errors["register"][] = 'le nom d\'utilisateur existe déja !';
@@ -103,16 +110,19 @@ class UserController extends BaseController
             if (!count($this->errors)) {
                 if (!$entity) {
                     $user->cryptPassword();
-                    $this->em->getRepository("user")->add($user);
+                    $this->em->getRepository("user")
+                        ->add($user);
                     $_SESSION['loggedIn'] = $user->getId();
                     $user->setIsLogged(1);
-                    $this->em->getRepository("user")->update($user);
+                    $this->em->getRepository("user")
+                        ->update($user);
                 }
                 $this->redirectUrl('/');
             } else {
                 $params['errors'] = $this->errors["register"];
             }
         }
+
         $this->RenderView('register.view.php', $params);
     }
 }

@@ -8,18 +8,16 @@
                 <p>S'il vous plaît entrer votre username et mot de passe</p>
             </div>
             <form id="Login" method="post">
-                <?php if (isset($errors) && !empty($errors)) {
-    ?>
+                <?php if (isset($errors) && !empty($errors)) { ?>
                 <div class="alert alert-danger">
 
-                    <?php foreach ($errors as $error) {
-        echo "<strong>Error!</strong> ".$error."<br>";
-    } ?>
+                    <?php foreach ($errors as $error) { ?>
+                        <strong>Error!</strong> <?php echo $error; ?> <br>
+                    <?php } ?>
                 </div>
-                <?php
-}?>
+                <?php } ?>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username">
+                    <input type="text" class="form-control" name="userName" placeholder="Username" value="<?php if(isset($data) && isset($data["userName"]) && ! is_null($data["userName"])) echo $data["userName"]; ?>">
                 </div>
 
                 <div class="form-group">

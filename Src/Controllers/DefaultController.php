@@ -35,7 +35,8 @@ class DefaultController extends BaseController
                     $this->errors["chat"][] = 'Votre message est vide !';
                     $response = ['success' => false, 'errors' => $this->errors["chat"]];
                 } else {
-                    $this->em->getRepository("message")->add($message);
+                    $this->em->getRepository("message")
+                        ->add($message);
                     $response = ['success' => true];
                 }
             } else {
@@ -54,7 +55,8 @@ class DefaultController extends BaseController
 
             $this->renderJson($response);
         } else {
-            $this->em->getRepository("user")->findAll(array('isLogged'=>true));
+            $this->em->getRepository("user")
+                ->findAll(array('isLogged'=>true));
             $this->renderView('chat.view.php');
         }
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Dim 18 Novembre 2018 à 01:27
+-- Généré le :  Dim 18 Novembre 2018 à 02:52
 -- Version du serveur :  5.7.24-0ubuntu0.18.04.1
 -- Version de PHP :  7.1.24-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -23,38 +23,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `message`
---
-
-CREATE TABLE `message` (
-  `id` int(11) NOT NULL,
-  `message` longtext COLLATE utf8_unicode_ci NOT NULL,
-  `senderId` int(11) DEFAULT NULL,
-  `receiverId` int(11) DEFAULT NULL,
-  `createdAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contenu de la table `message`
---
-
-INSERT INTO `message` (`id`, `message`, `senderId`, `receiverId`, `createdAt`) VALUES
-(1, 'cdfgfgfdg', 1, NULL, '2018-11-07 12:33:00'),
-(2, 'jytyuytu', 1, NULL, '2018-11-07 12:33:00'),
-(3, 'test test tes ', 3, NULL, '2018-11-07 13:45:00'),
-(4, 'test message', 3, NULL, '2018-11-07 14:05:00');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `user`
 --
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `firstname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `lastname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `firstName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `lastName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `userName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `isLogged` tinyint(1) DEFAULT '0',
@@ -65,23 +41,16 @@ CREATE TABLE `user` (
 -- Contenu de la table `user`
 --
 
-INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `email`, `password`, `isLogged`, `createdAt`) VALUES
+INSERT INTO `user` (`id`, `firstName`, `lastName`, `userName`, `email`, `password`, `isLogged`, `createdAt`) VALUES
 (1, 'saif', 'echami', 'saifeddine', 'saifeddine.echamit@gmail.com', '$2y$10$hYjKtjgpYsO7/o2jwZYxe.jyB6cq08odu8Z4LCRr254d/hWCSTL.S', 1, '2018-11-07 12:20:00'),
 (2, 'test', 'test', 'testest', 'test@test.com', '$2y$10$rfK3LK4Cus23SfZKezxbi.Zahf10xN.rN00YruOs5ZZGnFvs8HTmC', 0, '2018-11-07 13:13:00'),
 (3, 'test', 'test', 'testt2', 'test@teseet.com', '$2y$10$5qX62HsE6gH.Z.H/KR.7EeTeWIQp0gMjTOOFxNc2Bvfjyf48lZMVa', 1, '2018-11-07 13:39:00'),
-(4, 'fgfdg', 'derezr', 'root', 'hama.chami@hotmaail.fr', '$2y$10$x9JhqlFsMQaDOXbs1qD4HO25StXocTadIaL0pcUzWRFi21k77oequ', 0, '2018-11-07 16:53:00');
+(4, 'fgfdg', 'derezr', 'root', 'hama.chami@hotmaail.fr', '$2y$10$x9JhqlFsMQaDOXbs1qD4HO25StXocTadIaL0pcUzWRFi21k77oequ', 0, '2018-11-07 16:53:00'),
+(5, 'dfdsf', 'sdfdsfds', 'fsdfdsff', 'saifedffdine.echami1@gmail.com', '$2y$10$qUO9p3zJLCBYizlLCrjOGeQ0ovylWFhC.tt1y6BxxyeFPbNjDjhT6', 1, '2018-11-18 02:37:00');
 
 --
 -- Index pour les tables exportées
 --
-
---
--- Index pour la table `message`
---
-ALTER TABLE `message`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_senderId` (`senderId`),
-  ADD KEY `fk_receiverId` (`receiverId`);
 
 --
 -- Index pour la table `user`
@@ -94,26 +63,10 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT pour la table `message`
---
-ALTER TABLE `message`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- Contraintes pour les tables exportées
---
-
---
--- Contraintes pour la table `message`
---
-ALTER TABLE `message`
-  ADD CONSTRAINT `fk_receiverId` FOREIGN KEY (`receiverId`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `fk_senderId` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`);
-
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -13,8 +13,8 @@ class MessageRepository extends BaseRepository
     {
         $searchValues = [];
 
-        $statement = 'SELECT u.username as senderId ,m.message as message , m.createdAt as createdAt
-       FROM {$this->table} m left join user u on m.senderId=u.id';
+        $statement = 'SELECT u.userName as senderId ,m.message as message , m.createdAt as createdAt
+       FROM ' . $this->table . ' m left join user u on m.senderId=u.id';
 
         if (!empty($fields)) {
             $statement .= ' where 1=1 ';
@@ -26,13 +26,13 @@ class MessageRepository extends BaseRepository
         if (!empty($sort)) {
             $statement .= ' order by  ';
             foreach ($sort as $key => $value) {
-                $statement.="$key $value";
+                $statement .= "$key $value";
             }
         }
 
         $query = self::getDBInstance()->prepare($statement);
         $query->setFetchMode(\PDO::FETCH_ASSOC);
-        $result=$query->execute($searchValues);
+        $result = $query->execute($searchValues);
 
         if ($result) {
             return $query;

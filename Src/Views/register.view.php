@@ -8,31 +8,29 @@
             </div>
 
             <form id="Login" method="post">
-
-                <?php if (isset($errors) && !empty($errors)) {
-    ?>
+                <?php if (isset($errors) && !empty($errors)) { ?>
                     <div class="alert alert-danger">
 
-                        <?php foreach ($errors as $error) {
-        echo "<strong>Error!</strong> ".$error."<br>";
-    } ?>
+                        <?php foreach ($errors as $error) { ?>
+                            <strong>Error!</strong> <?php echo $error; ?> <br>
+                        <?php } ?>
                     </div>
-                <?php
-}?>
+                <?php } ?>
+
                 <div class="form-group">
-                    <input type="text" class="form-control" name="firstname" placeholder="Nom" required>
+                    <input type="text" class="form-control" name="firstName" placeholder="Nom" value="<?php if(isset($data) && isset($data["firstName"]) && !is_null($data["firstName"])) echo $data["firstName"]; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" name="lastname" placeholder="Prénom" required>
+                    <input type="text" class="form-control" name="lastName" placeholder="Prénom" value="<?php if(isset($data) && isset($data["lastName"]) && !is_null($data["lastName"])) echo $data["lastName"]; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username" placeholder="Username" required>
+                    <input type="text" class="form-control" name="userName" placeholder="UserName" value="<?php if(isset($data) && isset($data["userName"]) && !is_null($data["userName"])) echo $data["userName"]; ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="email" class="form-control" name="email" placeholder="email" required>
+                    <input type="email" class="form-control" name="email" placeholder="Email" value="<?php if(isset($data) && isset($data["email"]) && !is_null($data["email"])) echo $data["email"]; ?>" required>
                 </div>
 
                 <div class="form-group">

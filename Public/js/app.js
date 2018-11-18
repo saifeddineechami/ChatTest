@@ -34,11 +34,10 @@ var chatModule = (function () {
                 url : window.location.pathname,
                 success : function (data) {
                     $("#usres").empty();
-                    console.log(data.usres)
                     $.each(
                         data.usres,
                         function ( key,item ) {
-                            $("#usres").append(item.username +'<br/>');
+                            $("#usres").append(item.userName +'<br/>');
                         }
                     );
                     $("#messages").empty();
@@ -63,7 +62,6 @@ var chatModule = (function () {
                 url : window.location.pathname,
                 data : datastring,
                 success : function (data) {
-                    console.log("eee");
                     if (data.success) {
                         updateChat(data);
                     } else {

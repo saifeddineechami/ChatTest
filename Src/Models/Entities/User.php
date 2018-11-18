@@ -8,7 +8,7 @@ class User extends BaseEntity
 {
     protected $firstName;
     protected $lastName;
-    protected $username;
+    protected $userName;
     protected $email;
     protected $password;
     protected $confirmPassword;
@@ -29,7 +29,7 @@ class User extends BaseEntity
      */
     public function setFirstName($firstName)
     {
-        $this->firstname = $firstName;
+        $this->firstName = $firstName;
 
         return $this;
     }
@@ -56,18 +56,18 @@ class User extends BaseEntity
     /**
      * @return mixed
      */
-    public function getUsername()
+    public function getUserName()
     {
-        return $this->username;
+        return $this->userName;
     }
 
     /**
-     * @param  mixed $username
+     * @param  mixed $userName
      * @return $this
      */
-    public function setUsername($username)
+    public function setUserName($userName)
     {
-        $this->username = $username;
+        $this->userName = $userName;
 
         return $this;
     }

@@ -98,10 +98,9 @@ abstract class BaseRepository
         }
 
         $statement .= " where id = ?";
-        echo $statement."<br><br>";
 
         $values[] = $entity->getId();
-        //var_dump($values);exit;
+
         $query = self::getDBInstance()->prepare($statement);
         $query->execute($values);
     }
@@ -117,9 +116,6 @@ abstract class BaseRepository
         $result = $query->fetch();
         if ($result) {
             $entity="Chat\Models\Entities\\".ucfirst($this->entity);
-            /**
-* @var Entity $entity
-*/
             $entity = new $entity($result);
 
             return $entity;
