@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 23:21
- */
 
 namespace Chat\Controllers;
 
@@ -23,32 +17,34 @@ class DefaultController extends BaseController
         if (!isset($_SESSION['loggedIn'])) {
             $this->redirectUrl('/user/login');
         }
-
     }
 
     public function indexAction()
     {
-        if ($this->isAjaxRequest())
-        {
-
+        if ($this->isAjaxRequest()) {
             if ('POST' === $_SERVER['REQUEST_METHOD']) {
                 $message = isset($_POST['message']) ? $_POST['message'] : '';
-                $message = new Message(['message' => $message, 'senderId' => $_SESSION['loggedIn']]);
+                $message = new Message(
+                    [
+                        'message' => $message,
+                        'senderId' => $_SESSION['loggedIn']
+                    ]
+                );
 
                 if (empty($message->getMessage())) {
                     $this->errors["chat"][] = 'Votre message est vide !';
                     $response = ['success' => false, 'errors' => $this->errors["chat"]];
-                }
-                else
-                {
+                } else {
                     $this->em->getRepository("message")->add($message);
                     $response = ['success' => true];
                 }
-
             } else {
-
-                $messages = $this->em->getRepository("message")->findAll([],['createdAt'=>'desc'],'array');
-                $usres = $this->em->getRepository("user")->findAll(["isLogged" => 1],[],'array');
+                $messages = $this->em
+                    ->getRepository("message")
+                    ->findAll([], ['createdAt'=>'desc'], 'array');
+                $usres = $this->em
+                    ->getRepository("user")
+                    ->findAll(["isLogged" => 1], [], 'array');
                 if (!empty($messages)) {
                     $response = ['success' => true, 'messages' => $messages,'usres' => $usres];
                 } else {
@@ -57,14 +53,9 @@ class DefaultController extends BaseController
             }
 
             $this->renderJson($response);
-
         } else {
-
             $this->em->getRepository("user")->findAll(array('isLogged'=>true));
             $this->renderView('chat.view.php');
         }
-
-
     }
 }
-

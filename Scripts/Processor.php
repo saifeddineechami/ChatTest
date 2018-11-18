@@ -1,16 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 16:57
- */
 
 namespace Scripts;
+
 use Composer\IO\IOInterface;
 use Symfony\Component\Yaml\Inline;
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Yaml;
+
 class Processor
 {
     private $io;
@@ -35,7 +31,7 @@ class Processor
         $expectedParams = (array) $expectedValues[$parameterKey];
         // find the actual params
         $actualValues = array_merge(
-        // Preserve other top-level keys than `$parameterKey` in the file
+            // Preserve other top-level keys than `$parameterKey` in the file
             $expectedValues,
             array($parameterKey => array())
         );

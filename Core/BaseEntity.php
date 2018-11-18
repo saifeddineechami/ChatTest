@@ -1,20 +1,17 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 17:47
- */
 
 namespace Core;
 
-
 abstract class BaseEntity
 {
+    /**
+     * @var int $id
+     */
     protected $id;
 
     /**
      * Entity constructor.
+     *
      * @var array $data
      */
     public function __construct(array $data = array())
@@ -31,8 +28,8 @@ abstract class BaseEntity
     }
 
     /**
-     * @param int $id
-     * @return  $this
+     * @param  int $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -41,38 +38,25 @@ abstract class BaseEntity
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function toArray()
     {
         return get_object_vars($this);
     }
 
+    /**
+     * @param array $data
+     */
     public function hydrate(array $data)
     {
-        foreach ($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             $method = 'set'.ucfirst($key);
 
-            if (method_exists($this, $method))
-            {
-
+            if (method_exists($this, $method)) {
                 $this->$method($value);
             }
-        }
-    }
-
-    /**
-     * @var string $repositoryName
-     * @return BaseRepository|| null
-     */
-    public static function getRepository()
-    {
-        $repositoryClass="Chat\Repositories\\".ucfirst($repositoryName.'Repository');
-
-        if(class_exists($repositoryClass)){
-            return new $repositoryClass($repositoryName);
-        }else{
-            echo 'Error class repository not found';
-            die;
         }
     }
 

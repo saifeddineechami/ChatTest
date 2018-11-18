@@ -18,7 +18,7 @@ ini_set('error_log', dirname(__file__) . '/../Var/log_error_php.txt');
 error_reporting(E_ALL);
 
 
-if(!isset($_SESSION)) {
+if (!isset($_SESSION)) {
     session_start();
 }
 
@@ -26,11 +26,10 @@ require_once "../vendor/autoload.php";
 
 //Load Parameters
 $parameters = Yaml::parseFile(dirname(__file__) .'/../App/Config/parameters.yml');
-foreach ($parameters["parameters"] as $key=>$value) {
-    define ( "__".$key."__" ,  $value  );
+foreach ($parameters["parameters"] as $key => $value) {
+    define("__".$key."__", $value);
 }
 
 
 //Execute request
-Dispatcher::getInstance()->Dispatch();
-
+Dispatcher::getInstance()->dispatch();

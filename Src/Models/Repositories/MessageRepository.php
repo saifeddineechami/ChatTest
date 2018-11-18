@@ -1,23 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 07/11/18
- * Time: 10:04
- */
 
 namespace Chat\Models\Repositories;
+
 use Core\BaseRepository;
+
 class MessageRepository extends BaseRepository
 {
     public $table = "message";
     public $entity = "Message";
 
-    protected function findBy(array $fields = [],$sort=['id'=>'desc'])
+    protected function findBy(array $fields = [], $sort = ['id'=>'desc'])
     {
         $searchValues = [];
 
-        $statement = "SELECT u.username as senderId ,m.message as message , m.createdAt as createdAt FROM {$this->table} m left join user u on m.senderId=u.id";
+        $statement = 'SELECT u.username as senderId ,m.message as message , m.createdAt as createdAt
+       FROM {$this->table} m left join user u on m.senderId=u.id';
 
         if (!empty($fields)) {
             $statement .= ' where 1=1 ';
@@ -26,10 +23,9 @@ class MessageRepository extends BaseRepository
                 $searchValues[] = $fieldValue;
             }
         }
-        if(!empty($sort)){
+        if (!empty($sort)) {
             $statement .= ' order by  ';
-            foreach ($sort as $key=>$value){
-
+            foreach ($sort as $key => $value) {
                 $statement.="$key $value";
             }
         }
@@ -41,9 +37,8 @@ class MessageRepository extends BaseRepository
         if ($result) {
             return $query;
         } else {
-            var_dump( $query->errorInfo());
+            var_dump($query->errorInfo());
             die;
         }
-
     }
 }

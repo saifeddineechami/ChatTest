@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 21:31
- */
 
 namespace Core;
-
 
 class Dispatcher
 {
@@ -31,11 +24,11 @@ class Dispatcher
      */
     protected function __construct()
     {
-        $uri = str_replace(__baseurl__."/","",$_SERVER['REQUEST_URI']);
+        $uri = str_replace(__baseurl__."/", "", $_SERVER['REQUEST_URI']);
         $array = explode('/', $uri);
-        if(count($array) >=2)
-        list($this->controller, $this->action) = $array;
-
+        if (count($array) >=2) {
+            list($this->controller, $this->action) = $array;
+        }
     }
 
     /**
@@ -52,9 +45,9 @@ class Dispatcher
     }
 
     /**
-     *
+     * Running routing
      */
-    public function Dispatch()
+    public function dispatch()
     {
         $this->controller = ($this->controller)?:'default';
         $this->action = ($this->action)?:'index';
@@ -70,12 +63,10 @@ class Dispatcher
                 $controller->run($action);
                 exit();
             }
-
         }
         // if the controller doesn't exist then we redirect to not found action //
         $this->controller = 'error';
         $this->action = 'notFound';
-        $this->Dispatch();
+        $this->dispatch();
     }
-
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 07/11/18
- * Time: 00:10
- */
 
 namespace Core;
 
@@ -12,9 +6,12 @@ use Core\BaseEntity as Entity;
 use \PDO;
 use \PDOException;
 use \DateTime;
+
 abstract class BaseRepository
 {
-    /** @var null PDO $connection */
+    /**
+     * @var null PDO $connection
+     */
     protected static $connection = null;
 
 
@@ -25,10 +22,12 @@ abstract class BaseRepository
     {
         if (!isset(self::$connection)) {
             try {
-                self::$connection = new PDO("mysql:dbname=".__dbname__.";host=".__host__, __dbuser__, __dbpassword__);
-
+                self::$connection = new PDO(
+                    "mysql:dbname=".__dbname__.";host=".__host__,
+                    __dbuser__,
+                    __dbpassword__
+                );
             } catch (PDOException $e) {
-
                 echo 'Connection failed: '.$e->getMessage();
                 exit();
             }
@@ -38,7 +37,7 @@ abstract class BaseRepository
     }
 
     /**
-     * @param Entity $entity
+     * @param  Entity $entity
      * @return string
      */
     public function add(Entity $entity)
@@ -65,10 +64,9 @@ abstract class BaseRepository
 
             return $id;
         } else {
-            var_dump( $query->errorInfo());
+            var_dump($query->errorInfo());
             die;
         }
-
     }
 
     /**
@@ -91,8 +89,9 @@ abstract class BaseRepository
         $i=0;
         $values = [];
         foreach ($entity->toArray() as $fieldName => $fieldValue) {
-            if($i != 0)
+            if ($i != 0) {
                 $statement .= " , ";
+            }
             $statement .=$fieldName." =? ";
             $values[] = $fieldValue;
             $i++;
@@ -108,39 +107,40 @@ abstract class BaseRepository
     }
 
     /**
-     * @param array $fields
-     * @param array $sort
+     * @param  array $fields
+     * @param  array $sort
      * @return Entity|null|string
      */
-    public function findOne(array $fields = [],$sort=['id'=>'desc'])
+    public function findOne(array $fields = [], $sort = ['id'=>'desc'])
     {
-        $query = $this->findBy($fields,$sort);
+        $query = $this->findBy($fields, $sort);
         $result = $query->fetch();
-        if($result){
+        if ($result) {
             $entity="Chat\Models\Entities\\".ucfirst($this->entity);
-            /**@var Entity $entity */
+            /**
+* @var Entity $entity
+*/
             $entity = new $entity($result);
 
             return $entity;
         }
         return null;
-
     }
 
     /**
-     * @param array $fields
-     * @param array $sort
-     * @param string $type
+     * @param  array  $fields
+     * @param  array  $sort
+     * @param  string $type
      * @return array
      */
-    public function findAll(array $fields = [],$sort=['id'=>'desc'],$type='object')
+    public function findAll(array $fields = [], $sort = ['id'=>'desc'], $type = 'object')
     {
         $arrayResult = [];
 
-        $query = $this->findBy($fields,$sort);
+        $query = $this->findBy($fields, $sort);
         $result = $query->fetchAll();
 
-        if('object'===$type){
+        if ('object'===$type) {
             // hydrate the result to an array //
             foreach ($result as $element) {
                 $entity="Chat\Models\Entities\\".ucfirst($this->entity);
@@ -153,11 +153,11 @@ abstract class BaseRepository
     }
 
     /**
-     * @param array $fields
-     * @param array $sort
+     * @param  array $fields
+     * @param  array $sort
      * @return bool|PDOStatement
      */
-    protected function findBy(array $fields = [],$sort=['id'=>'desc'])
+    protected function findBy(array $fields = [], $sort = ['id'=>'desc'])
     {
         $searchValues = [];
 
@@ -170,10 +170,9 @@ abstract class BaseRepository
                 $searchValues[] = $fieldValue;
             }
         }
-        if(!empty($sort)){
+        if (!empty($sort)) {
             $statement .= ' order by  ';
-            foreach ($sort as $key=>$value){
-
+            foreach ($sort as $key => $value) {
                 $statement.="$key $value";
             }
         }
@@ -185,11 +184,8 @@ abstract class BaseRepository
         if ($result) {
             return $query;
         } else {
-            var_dump( $query->errorInfo());
+            var_dump($query->errorInfo());
             die;
         }
-
     }
-
-
 }

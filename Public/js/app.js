@@ -1,21 +1,28 @@
-$(document).ready(function () {
+$(document).ready(
+    function () {
 
-    chatModule.updateChat();
-    setInterval(
-        function () {
-            chatModule.updateChat();
-        }, 3000
-    );
-    $("#form-message").submit(function() {
-        var datastring = $("#form-message").serialize();
-        chatModule.sendMessage(datastring);
-        $(this).each(function(){
-            this.reset();
-        });
-        return false;
-    })
+        chatModule.updateChat();
+        setInterval(
+            function () {
+                chatModule.updateChat();
+            },
+            3000
+        );
+        $("#form-message").submit(
+            function () {
+                var datastring = $("#form-message").serialize();
+                chatModule.sendMessage(datastring);
+                $(this).each(
+                    function () {
+                        this.reset();
+                    }
+                );
+                return false;
+            }
+        )
 
-});
+    }
+);
 
 var chatModule = (function () {
 
@@ -25,21 +32,28 @@ var chatModule = (function () {
                 type : "GET",
                 dataType : "json",
                 url : window.location.pathname,
-                success : function(data) {
+                success : function (data) {
                     $("#usres").empty();
                     console.log(data.usres)
-                    $.each( data.usres, function( key,item ) {
-                        $("#usres").append( item.username +'<br/>');
-                    });
+                    $.each(
+                        data.usres,
+                        function ( key,item ) {
+                            $("#usres").append(item.username +'<br/>');
+                        }
+                    );
                     $("#messages").empty();
-                    $.each( data.messages, function( key,item ) {
-                        $("#messages").append( item.senderId + ' - ' + item.createdAt + ' - ' +  item.message+'<br/>');
-                    });
+                    $.each(
+                        data.messages,
+                        function ( key,item ) {
+                            $("#messages").append(item.senderId + ' - ' + item.createdAt + ' - ' +  item.message+'<br/>');
+                        }
+                    );
                 },
                 error :function (data) {
                     console.log(data);
                 }
-            });
+            }
+        );
     };
     var sendMessage = function (datastring) {
         $.ajax(
@@ -48,16 +62,17 @@ var chatModule = (function () {
                 dataType : "json",
                 url : window.location.pathname,
                 data : datastring,
-                success : function(data) {
+                success : function (data) {
                     console.log("eee");
-                    if(data.success){
+                    if (data.success) {
                         updateChat(data);
-                    }else{
+                    } else {
                         addMessageError(data);
                     }
 
                 }
-            });
+            }
+        );
     };
     var addMessageError=function (data) {
         $("#errors").remove();

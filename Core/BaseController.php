@@ -1,23 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 21:01
- */
 
 namespace Core;
 
 abstract class BaseController
 {
-
     /**
-     * @var array $errors .
+     * @var array $errors
      */
     protected $errors = [];
 
     /**
-     * @var EntityManager $em .
+     * @var EntityManager $em
      */
     protected $em;
 
@@ -39,25 +32,23 @@ abstract class BaseController
 
     /**
      * @param $template
-     * @param array $vars
+     * @param array    $vars
      */
-    protected function renderView($template, array $vars = array())
+    protected function renderView($template, array $vars = [])
     {
         extract($vars);
         extract($vars);
         try {
-            $file = '../Src/Views/' . strtolower($template) ;
+            $file = '../Src/Views/' . strtolower($template);
 
             if (file_exists($file)) {
-                include($file);
+                include $file;
             } else {
                 throw new customException('Template ' . $template . ' not found!');
             }
-        }
-        catch (customException $e) {
+        } catch (customException $e) {
             echo $e->errorMessage();
         }
-
     }
 
     protected function renderJson($response)
@@ -71,7 +62,7 @@ abstract class BaseController
      */
     protected function redirectUrl($url)
     {
-        header("location:". __baseurl__.$url,true,302);
+        header("location:". __baseurl__.$url, true, 302);
         exit();
     }
 
@@ -80,7 +71,8 @@ abstract class BaseController
      */
     protected function isAjaxRequest()
     {
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             return true;
         }
         return false;

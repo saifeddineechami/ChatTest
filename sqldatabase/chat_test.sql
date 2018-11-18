@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Mer 07 Novembre 2018 à 17:12
+-- Généré le :  Dim 18 Novembre 2018 à 01:27
 -- Version du serveur :  5.7.24-0ubuntu0.18.04.1
--- Version de PHP :  7.2.10-0ubuntu0.18.04.1
+-- Version de PHP :  7.1.24-1+ubuntu18.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -79,7 +79,9 @@ INSERT INTO `user` (`id`, `firstname`, `lastname`, `username`, `email`, `passwor
 -- Index pour la table `message`
 --
 ALTER TABLE `message`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_senderId` (`senderId`),
+  ADD KEY `fk_receiverId` (`receiverId`);
 
 --
 -- Index pour la table `user`
@@ -101,6 +103,17 @@ ALTER TABLE `message`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `message`
+--
+ALTER TABLE `message`
+  ADD CONSTRAINT `fk_receiverId` FOREIGN KEY (`receiverId`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `fk_senderId` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

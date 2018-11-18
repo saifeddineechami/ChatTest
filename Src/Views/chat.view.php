@@ -1,5 +1,5 @@
 
-<?php include 'header.view.php';?>
+<?php require 'header.view.php';?>
 <div id="notfound">
     <div class="notfound">
         <div><a href="<?php echo __baseurl__;?>/user/logout">Déconnexion</a></div>
@@ -16,4 +16,4 @@
     </div>
 </div>
 
-<?php include 'footer.view.php'; ?>
+<?php require 'footer.view.php'; ?>

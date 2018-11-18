@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 07/11/18
- * Time: 08:21
- */
 
 namespace Chat\Models\Entities;
 
@@ -12,9 +6,8 @@ use Core\BaseEntity;
 
 class User extends BaseEntity
 {
-
-    protected $firstname;
-    protected $lastname;
+    protected $firstName;
+    protected $lastName;
     protected $username;
     protected $email;
     protected $password;
@@ -27,16 +20,16 @@ class User extends BaseEntity
      */
     public function getFirstName()
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
     /**
-     * @param $firstname
+     * @param  $firstName
      * @return $this
      */
-    public function setFirstName($firstname)
+    public function setFirstName($firstName)
     {
-        $this->firstname = $firstname;
+        $this->firstname = $firstName;
 
         return $this;
     }
@@ -46,16 +39,16 @@ class User extends BaseEntity
      */
     public function getLastName()
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
     /**
-     * @param $lastname
+     * @param  $lastName
      * @return $this
      */
-    public function setLastName($lastname)
+    public function setLastName($lastName)
     {
-        $this->lastname = $lastname;
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -69,7 +62,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @param mixed $username
+     * @param  mixed $username
      * @return $this
      */
     public function setUsername($username)
@@ -88,7 +81,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @param $email
+     * @param  $email
      * @return $this
      */
     public function setEmail($email)
@@ -107,7 +100,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @param string $password
+     * @param  string $password
      * @return $this
      */
     public function setPassword($password)
@@ -128,7 +121,7 @@ class User extends BaseEntity
     }
 
     /**
-     * @param string $confirmPassword
+     * @param  string $confirmPassword
      * @return $this
      */
     public function setConfirmPassword($confirmPassword)
@@ -147,8 +140,8 @@ class User extends BaseEntity
     }
 
     /**
-     * @param boolean $isLogged
-     * @return  $this
+     * @param  boolean $isLogged
+     * @return $this
      */
     public function setIsLogged($isLogged)
     {
@@ -166,8 +159,8 @@ class User extends BaseEntity
     }
 
     /**
-     * @param \DateTime $createdAt
-     * @return  $this
+     * @param  \DateTime $createdAt
+     * @return $this
      */
     public function setCreatedAt($createdAt)
     {

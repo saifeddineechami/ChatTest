@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 07/11/18
- * Time: 11:31
- */
 
 namespace Chat\Controllers;
 
@@ -13,18 +7,15 @@ use Core\BaseController;
 
 class UserController extends BaseController
 {
-
-
     public function isUserLogged()
     {
         // if the user is logged in then redirect to home page //
         if (isset($_SESSION['loggedIn'])) {
             $this->redirectUrl('/');
         }
-
     }
 
-    function loginAction()
+    public function loginAction()
     {
         $this->isUserLogged();
         $params = [];
@@ -36,18 +27,16 @@ class UserController extends BaseController
             $entity = $this->em->getRepository("user")->findOne(['username' => $user->getUsername()]);
 
             if ($entity) {
-
-                if (password_verify($user->getPassword(),$entity->getPassword())) {
-
+                if (password_verify($user->getPassword(), $entity->getPassword())) {
                     $_SESSION['loggedIn'] = $entity->getId();
                     $entity->setIsLogged(1);
                     $this->em->getRepository("user")->update($entity);
-                }
-                else
+                } else {
                     $this->errors["login"][] = 'Merci de vérifier vos identifiants';
-            }
-            else
+                }
+            } else {
                 $this->errors["login"][] = 'Merci de vérifier vos identifiants';
+            }
             if (!count($this->errors)) {
                 $this->redirectUrl('/');
             } else {
@@ -57,7 +46,7 @@ class UserController extends BaseController
         $this->RenderView('login.view.php', $params);
     }
 
-    function logoutAction()
+    public function logoutAction()
     {
         $user = $this->em->getRepository("user")->findOne(['id' => $_SESSION["loggedIn"]]);
         $user->setIsLogged(0);
@@ -65,10 +54,9 @@ class UserController extends BaseController
 
         unset($_SESSION['loggedIn']);
         $this->redirectUrl('/user/login');
-
     }
 
-    function registerAction()
+    public function registerAction()
     {
         $this->isUserLogged();
         $params = [];
@@ -79,13 +67,22 @@ class UserController extends BaseController
             $email = isset($_POST['email']) ? $_POST['email'] : '';
             $password = isset($_POST['password']) ? $_POST['password'] : '';
             $confirmPassword = isset($_POST['confirmPassword']) ? $_POST['confirmPassword'] : '';
-            $user = new User(['firstname'=>$firstname,'lastname'=>$lastname,'username'=>$username,'email'=>$email,'password'=>$password,'confirmPassword'=>$confirmPassword,'isLogged'=>0]);
+            $user = new User(
+                [   'firstname'=>$firstname,
+                    'lastname'=>$lastname,
+                    'username'=>$username,
+                    'email'=>$email,'password'=>$password,
+                    'confirmPassword'=>$confirmPassword,
+                    'isLogged'=>0
+                ]
+            );
             if (!$user->getFirstName()
                 || !$user->getLastName()
                 || !$user->getUsername()
                 || !$user->getEmail()
                 || !$user->getPassword()
-                || !$user->getConfirmPassword()) {
+                || !$user->getConfirmPassword()
+            ) {
                 $this->errors["register"][] = 'Tous les champs sont obligatoires!';
             }
 
@@ -93,11 +90,13 @@ class UserController extends BaseController
                 $this->errors["register"][] = 'les deux mots de passe doivent etre indentiques!';
             }
 
-            /**@var User $entity */
+            /**
+* @var User $entity
+*/
             $entity = $this->em->getRepository("user")->findOne(['username' => $user->getUsername()]);
 
 
-            if ($entity ) {
+            if ($entity) {
                 $this->errors["register"][] = 'le nom d\'utilisateur existe déja !';
             }
 
@@ -113,11 +112,7 @@ class UserController extends BaseController
             } else {
                 $params['errors'] = $this->errors["register"];
             }
-
         }
         $this->RenderView('register.view.php', $params);
     }
-
 }
-
-

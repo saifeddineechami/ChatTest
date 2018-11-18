@@ -1,4 +1,4 @@
-<?php include 'header.view.php';?>
+<?php require 'header.view.php';?>
 <div id="notfound">
     <div class="notfound">
         <div class="notfound-404">
@@ -8,4 +8,4 @@
 
     </div>
 </div>
-<?php include 'footer.view.php'; ?>
+<?php require 'footer.view.php'; ?>

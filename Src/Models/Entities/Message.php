@@ -1,19 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 07/11/18
- * Time: 08:40
- */
 
 namespace Chat\Models\Entities;
 
 use Core\BaseEntity;
 
-
 class Message extends BaseEntity
 {
-
     protected $senderId;
     protected $receiverId;
     protected $message;
@@ -29,8 +21,8 @@ class Message extends BaseEntity
     }
 
     /**
-     * @param int $senderId
-     * @return  $this
+     * @param  int $senderId
+     * @return $this
      */
     public function setSenderId($senderId)
     {
@@ -48,8 +40,8 @@ class Message extends BaseEntity
     }
 
     /**
-     * @param int $receiverId
-     * @return  $this
+     * @param  int $receiverId
+     * @return $this
      */
     public function setReceiverId($receiverId)
     {
@@ -67,8 +59,8 @@ class Message extends BaseEntity
     }
 
     /**
-     * @param \DateTime $createdAt
-     * @return  $this
+     * @param  \DateTime $createdAt
+     * @return $this
      */
     public function setCreatedAt($createdAt)
     {
@@ -86,8 +78,8 @@ class Message extends BaseEntity
     }
 
     /**
-     * @param string $message
-     * @return  $this
+     * @param  string $message
+     * @return $this
      */
     public function setMessage($message)
     {
@@ -95,5 +87,4 @@ class Message extends BaseEntity
 
         return $this;
     }
-
 }

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: saif
- * Date: 06/11/18
- * Time: 16:37
- */
+
 namespace Scripts;
 
 use Composer\Script\Event;
