@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Client :  localhost:3306
--- Généré le :  Dim 18 Novembre 2018 à 02:52
+-- Généré le :  Mar 27 Novembre 2018 à 11:15
 -- Version du serveur :  5.7.24-0ubuntu0.18.04.1
 -- Version de PHP :  7.1.24-1+ubuntu18.04.1+deb.sury.org+1
 
@@ -23,18 +23,44 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `message`
+--
+
+CREATE TABLE `message` (
+                         `id` int(11) NOT NULL,
+                         `message` longtext COLLATE utf8_unicode_ci NOT NULL,
+                         `senderId` int(11) DEFAULT NULL,
+                         `receiverId` int(11) DEFAULT NULL,
+                         `createdAt` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `message`
+--
+
+INSERT INTO `message` (`id`, `message`, `senderId`, `receiverId`, `createdAt`) VALUES
+(1, 'cdfgfgfdg', 1, NULL, '2018-11-07 12:33:00'),
+(2, 'jytyuytu', 1, NULL, '2018-11-07 12:33:00'),
+(3, 'test test tes ', 3, NULL, '2018-11-07 13:45:00'),
+(4, 'test message', 3, NULL, '2018-11-07 14:05:00'),
+(5, 'fdfdsf', 5, NULL, '2018-11-18 02:37:00'),
+(6, 'fdsfds', 5, NULL, '2018-11-18 02:51:00');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `user`
 --
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `firstName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `lastName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `userName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `isLogged` tinyint(1) DEFAULT '0',
-  `createdAt` datetime NOT NULL
+                      `id` int(11) NOT NULL,
+                      `firstName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `lastName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `userName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                      `isLogged` tinyint(1) DEFAULT '0',
+                      `createdAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -53,6 +79,14 @@ INSERT INTO `user` (`id`, `firstName`, `lastName`, `userName`, `email`, `passwor
 --
 
 --
+-- Index pour la table `message`
+--
+ALTER TABLE `message`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_senderId` (`senderId`),
+  ADD KEY `fk_receiverId` (`receiverId`);
+
+--
 -- Index pour la table `user`
 --
 ALTER TABLE `user`
@@ -63,10 +97,26 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT pour la table `message`
+--
+ALTER TABLE `message`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+--
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `message`
+--
+ALTER TABLE `message`
+  ADD CONSTRAINT `fk_receiverId` FOREIGN KEY (`receiverId`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `fk_senderId` FOREIGN KEY (`senderId`) REFERENCES `user` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
